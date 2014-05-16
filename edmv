@@ -9,6 +9,7 @@
 #  actual help/man page
 #  actual command line flags:
 #   -y/--yes -n/--no -e/--editor
+#  use -e, EDMV_EDITOR, and EDITOR, in that order
 
 import tempfile, sys, os, subprocess, shutil
 
