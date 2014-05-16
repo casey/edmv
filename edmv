@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 # todo:
+#  lol testing
+#  maybe bring back the header
 #  check box options: lowercase, uppercase, capitalize, camel case strip punctuation, add suffix
 #  delete files that have empty lines
 #  preview changes to user
@@ -19,13 +21,11 @@ if not to_rename:
 
 editor = os.environ.get('EDITOR','vi')
 
-header = "# be careful!"
-
-lines = [header] + to_rename
-
 with tempfile.NamedTemporaryFile(prefix="edmv", delete=False) as f:
   path = f.name
-  f.write("\n".join(lines).encode('utf-8'))
+  f.write("\n".join(to_rename).encode('utf-8'))
+
+# todo: print some kind of warning prompt and make user type "Ok" or "yes"
 
 code = subprocess.call([editor, path])
 
@@ -37,16 +37,14 @@ with open(path) as f:
 
 os.remove(path)
 
-if len(edited) - 1 != len(to_rename):
+if len(edited) != len(to_rename):
   die("line count mismatch. giving up")
 
-if edited[0].strip() != header:
-  die("comment line not preserved. giving up")
-
 for i in range(len(to_rename)):
-  pre  = to_rename[i]
-  post = edited[i + 1]
-  shutil.move()
+  # todo: do something sane with leading and trailing whitespace
+  pre  = to_rename[i].strip()
+  post = edited[i].strip()
+  # todo: check that the names are actually different
   # todo: check if original file is still there
   # todo: check if original file can be removed
   # todo: check if destination file exists
