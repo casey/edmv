@@ -1,0 +1,53 @@
+#!/usr/bin/env python
+
+# todo:
+#  check box options: lowercase, uppercase, capitalize, camel case strip punctuation, add suffix
+#  delete files that have empty lines
+#  preview changes to user
+#  actual help/man page
+
+import tempfile, sys, os, subprocess
+
+def die(msg):
+  print(msg)
+  exit(1)
+
+to_rename = sys.argv[1:]
+
+if not to_rename:
+  die("usage: edmv source_file ...")
+
+editor = os.environ.get('EDITOR','vi')
+
+header = "# be careful!"
+
+lines = [header] + to_rename
+
+with tempfile.NamedTemporaryFile(prefix="edmv", delete=False) as f:
+  path = f.name
+  f.write("\n".join(lines).encode('utf-8'))
+
+code = subprocess.call([editor, path])
+
+if code != 0:
+  die("call to editor failed! giving up.")
+
+with open(path) as f:
+  edited = f.readlines()
+
+os.remove(path)
+
+if len(edited) - 1 != len(to_rename):
+  die("line count mismatch. giving up")
+
+if edited[0].strip() != header:
+  die("comment line not preserved. giving up")
+
+for i in range(len(to_rename)):
+  pre  = to_rename[i]
+  post = edited[i + 1]
+  # check if original file is still there
+  # check if original file can be removed
+  # check if destination file exists
+  # check that original directory and destination directory are the same
+  print(" ".join([pre, "->", post]))
