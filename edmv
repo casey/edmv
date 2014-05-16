@@ -4,17 +4,23 @@
 #  lol testing
 #  lol comments
 #  maybe bring back the header
-#  check box options: lowercase, uppercase, capitalize, camel case strip punctuation, add suffix
+#  check box options: lowercase, uppercase, capitalize,
+#     camel case strip punctuation, add suffix
 #  delete files that have empty lines
 #  preview changes to user
 #  actual help/man page
 #  actual command line flags:
 #   -y/--yes -n/--no -e/--editor
 
-import tempfile, sys, os, subprocess, shutil
+import os
+import shutil
+import subprocess
+import sys
+import tempfile
+
 
 def die(msg):
-  print(msg)
+  sys.stderr.write(msg + "\n")
   exit(1)
 
 to_rename = sys.argv[1:]
@@ -47,7 +53,7 @@ if len(edited) != len(to_rename):
 
 for i in range(len(to_rename)):
   # todo: do something sane with leading and trailing whitespace
-  pre  = to_rename[i].strip()
+  pre = to_rename[i].strip()
   post = edited[i].strip()
   # todo: check that the names are actually different
   # todo: check if original file is still there
