@@ -6,7 +6,7 @@
 #  preview changes to user
 #  actual help/man page
 
-import tempfile, sys, os, subprocess
+import tempfile, sys, os, subprocess, shutil
 
 def die(msg):
   print(msg)
@@ -46,8 +46,10 @@ if edited[0].strip() != header:
 for i in range(len(to_rename)):
   pre  = to_rename[i]
   post = edited[i + 1]
-  # check if original file is still there
-  # check if original file can be removed
-  # check if destination file exists
-  # check that original directory and destination directory are the same
+  shutil.move()
+  # todo: check if original file is still there
+  # todo: check if original file can be removed
+  # todo: check if destination file exists
+  # todo: check that original directory and destination directory are the same
   print(" ".join([pre, "->", post]))
+  shutil.move(pre, post)
