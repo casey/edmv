@@ -7,6 +7,8 @@
 #  delete files that have empty lines
 #  preview changes to user
 #  actual help/man page
+#  actual command line flags:
+#   -y/--yes -n/--no -e/--editor
 
 import tempfile, sys, os, subprocess, shutil
 
