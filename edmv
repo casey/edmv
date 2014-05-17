@@ -9,24 +9,48 @@
 #  delete files that have empty lines
 #  preview changes to user
 #  actual help/man page
-#  actual command line flags:
-#   -y/--yes -n/--no -e/--editor
+#  do something with the command line flags
 
+import argparse
 import os
 import shutil
 import subprocess
 import sys
 import tempfile
 
+parser = argparse.ArgumentParser(
+    prog="edmv", description="Rename files using your editor.")
+parser.add_argument("files",
+                    metavar="FILE",
+                    nargs="*",
+                    help="The filenames to rename.")
+parser.add_argument("-y", "--yes",
+                    action="store_true",
+                    default=False,
+                    help="Yes, rename the files.")
+parser.add_argument("-n", "--no",
+                    action="store_true",
+                    default=False,
+                    help="Dry run. Prints what would happen, "
+                         "but doesn't move files.")
+parser.add_argument("-e", "--editor",
+                    type=str,
+                    default=None,
+                    help="Specify your editor explicitly, instead "
+                         "of EDMV_EDITOR or EDITOR.")
+
+args = parser.parse_args()
+
 
 def die(msg):
   sys.stderr.write(msg + "\n")
   exit(1)
 
-to_rename = sys.argv[1:]
+to_rename = args.files
 
 if not to_rename:
-  die("usage: edmv source_file ...")
+  parser.print_help()
+  die("")
 
 editor = os.environ.get("EDMV_EDITOR") or os.environ.get('EDITOR') or 'vi'
 
