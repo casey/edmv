@@ -9,7 +9,6 @@
 #  actual help/man page
 #  actual command line flags:
 #   -y/--yes -n/--no -e/--editor
-#  use -e, EDMV_EDITOR, and EDITOR, in that order
 
 import tempfile, sys, os, subprocess, shutil
 
@@ -22,7 +21,7 @@ to_rename = sys.argv[1:]
 if not to_rename:
   die("usage: edmv source_file ...")
 
-editor = os.environ.get('EDITOR','vi')
+editor = os.environ.get("EDMV_EDITOR") or os.environ.get('EDITOR') or 'vi'
 
 with tempfile.NamedTemporaryFile(prefix="edmv", delete=False) as f:
   path = f.name
