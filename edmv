@@ -4,8 +4,7 @@
 #  lol testing
 #  lol comments
 #  maybe bring back the header
-#  check box options: lowercase, uppercase, capitalize,
-#     camel case strip punctuation, add suffix
+#  check box options: lowercase, uppercase, capitalize, camel case strip punctuation, add suffix
 #  delete files that have empty lines
 #  preview changes to user
 #  actual help/man page
@@ -77,7 +76,7 @@ if len(edited) != len(to_rename):
 
 for i in range(len(to_rename)):
   # todo: do something sane with leading and trailing whitespace
-  pre = to_rename[i].strip()
+  pre  = to_rename[i].strip()
   post = edited[i].strip()
   # todo: check that the names are actually different
   # todo: check if original file is still there
