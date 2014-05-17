@@ -1,0 +1,10 @@
+todo:
+- testing
+- nicer readme
+- better ui
+  . better file name in editor
+  . interactive instructions:
+    "it's going to invoke your editor"
+    "to bail, don't make any changes, or change the number of lines"
+  . confirm before changes are made
+    (use color to show edits to files)

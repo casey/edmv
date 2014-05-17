@@ -2,6 +2,7 @@
 
 # todo:
 #  lol testing
+#  lol comments
 #  maybe bring back the header
 #  check box options: lowercase, uppercase, capitalize, camel case strip punctuation, add suffix
 #  delete files that have empty lines
@@ -29,7 +30,9 @@ with tempfile.NamedTemporaryFile(prefix="edmv", delete=False) as f:
 
 # todo: print some kind of warning prompt and make user type "Ok" or "yes"
 
-code = subprocess.call([editor, path])
+# todo: deeply consider the security implications and possible advantages of
+#       using "shell=True"
+code = subprocess.call(editor.split() + [path])
 
 if code != 0:
   die("call to editor failed! giving up.")
