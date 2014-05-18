@@ -1,16 +1,5 @@
 #!/usr/bin/env python
 
-# todo:
-#  lol testing
-#  lol comments
-#  maybe bring back the header
-#  check box options: lowercase, uppercase, capitalize, camel case strip punctuation, add suffix
-#  delete files that have empty lines
-#  preview changes to user
-#  actual help/man page
-#  actual command line flags:
-#   -y/--yes -n/--no -e/--editor
-
 import tempfile, sys, os, subprocess, shutil
 
 def die(msg):
@@ -28,11 +17,7 @@ with tempfile.NamedTemporaryFile(prefix="edmv", delete=False) as f:
   path = f.name
   f.write("\n".join(to_rename).encode('utf-8'))
 
-# todo: print some kind of warning prompt and make user type "Ok" or "yes"
-
-# todo: deeply consider the security implications and possible advantages of
-#       using "shell=True"
-code = subprocess.call(editor.split() + [path])
+code = subprocess.call("%s %s" % (editor, path), shell=True)
 
 if code != 0:
   die("call to editor failed! giving up.")
@@ -46,13 +31,7 @@ if len(edited) != len(to_rename):
   die("line count mismatch. giving up")
 
 for i in range(len(to_rename)):
-  # todo: do something sane with leading and trailing whitespace
   pre  = to_rename[i].strip()
   post = edited[i].strip()
-  # todo: check that the names are actually different
-  # todo: check if original file is still there
-  # todo: check if original file can be removed
-  # todo: check if destination file exists
-  # todo: check that original directory and destination directory are the same
   print(" ".join([pre, "->", post]))
   shutil.move(pre, post)
