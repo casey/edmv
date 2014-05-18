@@ -48,6 +48,11 @@ if len(dst_files) != file_count:
   die("line count bad: should be %s, actually %s" % (file_count, len(dst_files)))
 
 for src, dst in zip(src_files, dst_files):
+  if not dst:
+    die("bad path: '%s'" % dst)
+  if src == dst:
+    sys.stderr.write("%s == %s\n" % (src, dst))
+    continue
   sys.stderr.write("%s -> %s\n" % (src, dst))
   if not args.no:
     shutil.move(src, dst)
