@@ -29,7 +29,7 @@ parser.add_argument("-e", "--editor",
                     default=None,
                     help="Specify your editor explicitly, instead of using $EDMV_EDITOR or $EDITOR.")
 
-parser.add_argument('--version', action='version', version='%(prog)s 0.0.0.0.1 pre-alpha')
+parser.add_argument('--version', action='version', version='%(prog)s 0.0.0.0.1 alpha')
 
 args = parser.parse_args()
 
