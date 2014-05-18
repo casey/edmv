@@ -1,8 +1,13 @@
 #!/usr/bin/env python
 
-import argparse, os, shutil, subprocess, sys, tempfile
+"""
+Rename files with your favorite editor. (Or whatever it happens to find in $EDMV_EDITOR or $EDITOR.)
+"""
 
-parser = argparse.ArgumentParser(prog="edmv", description="Rename files with your favorite editor.")
+import argparse, os, shutil, subprocess, sys, tempfile
+from argparse import RawTextHelpFormatter
+
+parser = argparse.ArgumentParser(prog="edmv", description=__doc__)
 
 parser.add_argument("src_files",
                     metavar="FILE",
@@ -14,10 +19,17 @@ parser.add_argument("-n", "--no",
                     default=False,
                     help="Dry run. Prints what would happen, but doesn't move files.")
 
+parser.add_argument("-f", "--force",
+                    action="store_true",
+                    default=False,
+                    help="Allow overwriting existing files.")
+
 parser.add_argument("-e", "--editor",
                     type=str,
                     default=None,
                     help="Specify your editor explicitly, instead of using $EDMV_EDITOR or $EDITOR.")
+
+parser.add_argument('--version', action='version', version='%(prog)s 0.0.0.0.1 pre-alpha')
 
 args = parser.parse_args()
 
@@ -25,14 +37,25 @@ def die(msg='', code=1):
   sys.stderr.write("edmv: %s\n" % msg)
   exit(code)
 
+def dups(l):
+  return [x for x in l if l.count(x) > 1]
+
 src_files = args.src_files
 file_count = len(src_files)
 
+src_file_dups = dups(src_files)
+if src_file_dups:
+  die("duplicates files: %s" % (", ".join(src_file_dups)))
+
+for f in src_files:
+  if not os.path.exists(f):
+    die("file does not exist: %s" % f)
+
 editor = args.editor or os.environ.get("EDMV_EDITOR") or os.environ.get('EDITOR') or 'vi'
 
-with tempfile.NamedTemporaryFile(prefix="edmv", delete=False) as f:
+with tempfile.NamedTemporaryFile(prefix="edmv-", delete=False) as f:
   tmpfile = f.name
-  f.write("\n".join(src_files).encode('utf-8'))
+  f.write(("\n".join(src_files) + "\n").encode('utf-8'))
 
 code = subprocess.call("%s %s" % (editor, tmpfile), shell=True)
 
@@ -47,12 +70,33 @@ os.remove(tmpfile)
 if len(dst_files) != file_count:
   die("line count bad: should be %s, actually %s" % (file_count, len(dst_files)))
 
-for src, dst in zip(src_files, dst_files):
+dst_file_dups = dups(dst_files)
+if dst_file_dups:
+  die("duplicate files: %s" % (", ".join(dst_file_dups)))
+
+pairs = zip(src_files, dst_files)
+
+if not args.force:
+  for src, dst in pairs:
+    if src != dst and os.path.exists(dst):
+      die("destination file exists, use -f to overwrite: %s" % f)
+
+for f in dst_files:
+  dirname = os.path.dirname(os.path.abspath(f))
+  if not os.path.exists(dirname):
+    die("destination directory does not exist: %s" % dirname)
+
+unchanged = 0
+
+for src, dst in pairs:
   if not dst:
     die("bad path: '%s'" % dst)
   if src == dst:
-    sys.stderr.write("%s == %s\n" % (src, dst))
+    unchanged += 1
     continue
   sys.stderr.write("%s -> %s\n" % (src, dst))
   if not args.no:
     shutil.move(src, dst)
+
+if unchanged:
+  sys.stderr.write("(%s files unchanged)\n" % unchanged)
