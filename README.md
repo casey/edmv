@@ -11,14 +11,13 @@ todo
 - better cli:
   . -e/--editor flag
   . better usage string
-  . --help
+  . --help, with a better help message, mention EDITOR and EDMV_EDITOR
   . --version
-
-- don't use strip() to remove whitespace, just remove the single trailing newline
 
 - add an extra newline at the end of the file, the remove it
 
 - add sanity checks, only rename files if they all pass for every file:
+  . refuse to add trailing whitespace to a file name if it didn't already have it
   . check that names are different, skip moving file if they're the same
   . check that the source file exists
   . check that the source file can be removed
