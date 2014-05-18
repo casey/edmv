@@ -3,6 +3,8 @@ edmv
 
 A small tool for bulk-renaming files using the editor of your choice.
 
+Demo here: http://youtu.be/EzhbTEh-7Fk
+
 WARNING: May delete everything on your computer. Read the LICENSE file and don't sue me.
 
 Use it like this:
