@@ -5,7 +5,13 @@ Rename files with your favorite editor. (Or whatever it happens to find in $EDMV
 """
 
 import argparse, os, shutil, subprocess, sys, tempfile
-from argparse import RawTextHelpFormatter
+
+def die(msg='', code=1):
+  sys.stderr.write("edmv: %s\n" % msg)
+  exit(code)
+
+def dups(l):
+  return [x for x in l if l.count(x) > 1]
 
 parser = argparse.ArgumentParser(prog="edmv", description=__doc__)
 
@@ -32,13 +38,6 @@ parser.add_argument("-e", "--editor",
 parser.add_argument('--version', action='version', version='%(prog)s 0.0.0.0.1 alpha')
 
 args = parser.parse_args()
-
-def die(msg='', code=1):
-  sys.stderr.write("edmv: %s\n" % msg)
-  exit(code)
-
-def dups(l):
-  return [x for x in l if l.count(x) > 1]
 
 src_files = args.src_files
 file_count = len(src_files)
