@@ -32,5 +32,6 @@ todo
   - do this all with a permissionless user or in a chroot
 
 * better demo video:
+  - carmina burana
   - more complex renames
   - multiple editor types: command line, sed filter, os x app, vim, emacs

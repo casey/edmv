@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Rename files with your favorite editor. (Or whatever it happens to find in $EDMV_EDITOR or $EDITOR.)
+Rename files with your favorite editor. (Or whatever happens to be in $EDMV_EDITOR or $EDITOR.)
 """
 
 import argparse, os, shutil, subprocess, sys, tempfile
@@ -40,6 +40,12 @@ parser.add_argument('--version', action='version', version='%(prog)s 0.1.0')
 args = parser.parse_args()
 
 src_files = args.src_files
+
+if '-' in src_files:
+  i = src_files.index('-')
+  stdin_files = sys.stdin.read().splitlines()
+  src_files[i:i+1] = stdin_files
+
 file_count = len(src_files)
 
 src_file_dups = dups(src_files)
