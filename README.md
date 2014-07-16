@@ -11,6 +11,10 @@ Use it like this:
 
 `edmv foo bar baz`
 
+Or like this:
+
+`emdv *`
+
 It will invoke your editor on a list of the files provided, in this case `foo`, `bar`, and `baz`. Once you're done editing the filenames it will try to rename them to match any changes that you've made. Be careful!
 
 You can tell `edmv` which editor to use by:
