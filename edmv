@@ -23,7 +23,7 @@ parser.add_argument("src_files",
 parser.add_argument("-n", "--no",
                     action="store_true",
                     default=False,
-                    help="Dry run. Prints what would happen, but doesn't move files.")
+                    help="Dry run. Prints what would happen but doesn't move files.")
 
 parser.add_argument("-f", "--force",
                     action="store_true",
