@@ -1,0 +1,3 @@
+[submodule "dotbot"]
+	path = dotbot
+	url = git@github.com:casey/dotbot.git
