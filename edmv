@@ -8,6 +8,7 @@ import argparse, os, shutil, subprocess, sys, tempfile
 
 def die(msg='', code=1):
   sys.stderr.write("edmv: %s\n" % msg)
+  sys.stderr.flush()
   exit(code)
 
 def dups(l):
@@ -79,7 +80,7 @@ dst_file_dups = dups(dst_files)
 if dst_file_dups:
   die("duplicate files: %s" % (", ".join(dst_file_dups)))
 
-pairs = zip(src_files, dst_files)
+pairs = list(zip(src_files, dst_files))
 
 if not args.force:
   for src, dst in pairs:
