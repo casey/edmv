@@ -85,7 +85,7 @@ pairs = list(zip(src_files, dst_files))
 if not args.force:
   for src, dst in pairs:
     if src != dst and os.path.exists(dst):
-      die("destination file exists, use -f to overwrite: %s" % f)
+      die("destination file exists, use -f to overwrite: %s" % dst)
 
 for f in dst_files:
   dirname = os.path.dirname(os.path.abspath(f))
