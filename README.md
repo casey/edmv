@@ -24,3 +24,5 @@ You can tell `edmv` which editor to use by:
 - Not doing anything, in which case edmv will default to `vi`, just as Bill Joy intended
 
 If you would like to use an OS X application for your editor, for example Sublime Text 2, it is speculated that you could put something like the following in your shell rc file: `export EDMV_EDITOR='open -Wa "Sublime Text 2"'`.
+
+If you use MacPorts, you can install edmv with `port install edmv`.
